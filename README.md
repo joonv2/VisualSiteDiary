@@ -48,3 +48,19 @@ pip install -r requirements.txt
 <pre>sh scripts/caption_mplug_large.sh</pre>  
 
                                                                    
+
+
+## Citation
+If you use our work, please cite:
+```
+@article{jung2023,
+  title={VisualSiteDiary: A Detector-Free Vision Transformer Model for Captioning Photologs for Daily Construction Reporting},
+  author={Jung, Yoonhwa and Cho, Ikhyun and Hsu, Shun-Shuing and Golparvar-Fard, Mani},
+  journal={Automation in Construction},
+  year={2023},
+  note ={submitted}
+}
+```
+## Acknowledgement
+
+The implementation of VisualSiteDiary relies on resources from [mPLUG](https://github.com/alibaba/AliceMind/tree/main/mPLUG), and [S2-Transformer](https://github.com/zchoi/S2-Transformer). We thank the original authors for their open-sourcing.
