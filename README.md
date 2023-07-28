@@ -39,16 +39,22 @@ pip install -r requirements.txt
 
 ## Fine-tuning
                                                                                       
-1. Download our VSD Caption dataset from the original websites.
-2. Download and extract the provided dataset json files.
+1. Download the Construction image dataset from the original paper.
+  1.1. ACID (https://www.acidb.ca/dataset)
+  1.2. ACTV (https://github.com/HannahHuanLIU/AEC-image-captioning)
+  1.3. SAFE (https://doi.org/10.1061/JCEMD4.COENG-12096)
+  1.4. SODA (https://doi.org/10.1016/j.autcon.2022.104499)  
+2. Download and extract the provided dataset json files (our VSD Caption dataset).
 3. Download language evalution tool([language_evalution](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/language_evaluation.tar)).
-4. In configs/caption_mplug_base.yaml, set the paths for the json files and the image paths.
-5. Finetune the pre-trained mplug_base or large model using 8 A100 GPUs:
-<pre>sh scripts/caption_mplug_base.sh</pre> 
-<pre>sh scripts/caption_mplug_large.sh</pre>  
+4. In configs/caption_mplug_ALL.yaml, set the paths for the json files and the image paths.
+5. Finetune the pre-trained visualsitediary_base or compact/detailed version model using 1 A100 GPU following our instruction.ipyb:
+<pre>instruction.ipyb</pre> 
+<pre>scripts/caption_vsd_base.sh</pre> 
+<pre>sh scripts/caption_vsd_compact.sh</pre>  
+<pre>sh scripts/caption_vsd_detail.sh</pre>  
 
                                                                    
-
+## Demo instruction for Inference (using your own dataset)
 
 ## Citation
 If you use our work, please cite:
