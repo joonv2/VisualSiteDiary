@@ -14,11 +14,11 @@ We present VisualSiteDiary that provides human-readable captions to decipher dai
  
 |Model | Visual Backbone | Text Enc Layers | Fusion Layers | Text Dec Layers | #params | Download |
 |------------------------|-------------------------------------------|------|------|------|------|-----|
-|visualsitediary.base | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.base](https://drive.google.com/file/d/1u7Ggp46v31zu8rHQ9nx9NXCDdz0WPv2H/view?usp=sharing) |
-|visualsitediary.compact | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.compact](https://drive.google.com/file/d/1qWh9pjVvYd-3xeaqEF1biPDrtFmZO5Cn/view?usp=sharing) |
-|visualsitediary.detailed | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.detailed](https://drive.google.com/file/d/1aNHt9G3ryLbOwHyTgpvHHXrijS-ksQLN/view?usp=sharing) |
+|visualsitediary.base | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [https://drive.google.com/file/d/1ZqcuPH0BoxdmnrwAQ1KvR8wYaRV_33VY/view?usp=sharing] |
+|visualsitediary.compact | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.compact](https://drive.google.com/file/d/1qWh9pjVvYd-3xeaqEF1biPDrtFmZO5Cn/view?usp=sharing] |
+|visualsitediary.detailed | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.detailed](https://drive.google.com/file/d/1aNHt9G3ryLbOwHyTgpvHHXrijS-ksQLN/view?usp=sharing] |
 
-* Pre-train VSD Datasets (Need to make a request for the images through the authors of each paper)
+* VSD Datasets (Need to make a request for the images through the authors of each paper)
                                                                           
 | | ACID | ACTV | SAFE | SODA | 
 |------------------------|-------------------------------------------|------|------|------|
