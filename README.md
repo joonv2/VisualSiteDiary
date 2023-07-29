@@ -14,9 +14,9 @@ We present VisualSiteDiary that provides human-readable captions to decipher dai
  
 |Model | Visual Backbone | Text Enc Layers | Fusion Layers | Text Dec Layers | #params | Download |
 |------------------------|-------------------------------------------|------|------|------|------|-----|
-|visualsitediary.base | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [https://drive.google.com/file/d/1ZqcuPH0BoxdmnrwAQ1KvR8wYaRV_33VY/view?usp=sharing] |
-|visualsitediary.compact | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.compact](https://drive.google.com/file/d/1qWh9pjVvYd-3xeaqEF1biPDrtFmZO5Cn/view?usp=sharing] |
-|visualsitediary.detailed | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.detailed](https://drive.google.com/file/d/1aNHt9G3ryLbOwHyTgpvHHXrijS-ksQLN/view?usp=sharing] |
+|visualsitediary.total | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.total](https://drive.google.com/file/d/1ZqcuPH0BoxdmnrwAQ1KvR8wYaRV_33VY/view?usp=sharing) |
+|visualsitediary.compact | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.compact](https://drive.google.com/file/d/1qWh9pjVvYd-3xeaqEF1biPDrtFmZO5Cn/view?usp=sharing) |
+|visualsitediary.detailed | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.detailed](https://drive.google.com/file/d/1aNHt9G3ryLbOwHyTgpvHHXrijS-ksQLN/view?usp=sharing) |
 
 * VSD Datasets (Need to make a request for the images through the authors of each paper)
                                                                           
@@ -46,7 +46,7 @@ pip install -r requirements.txt
 3. Upload ViT-B-16.tar to the main root (./)
 4. Upload mPLUG_caption_base.pth to the main root (./)
 5. Upload --ours--.pth to the main root (./)
-  - visualsitediary_base: Trained_with_both_captions.pth
+  - visualsitediary_total: Trained_with_both_captions.pth
   - visualsitediary_compact: Trained_with_lv_0.pth
   - visualsitediary_detail: Trained_with_lv_1.pth
 6. Download language evalution tool([language_evalution](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/language_evaluation.tar)).
