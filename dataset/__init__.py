@@ -3,7 +3,7 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 from PIL import Image
 
-from dataset.caption_dataset import re_train_dataset, re_eval_dataset, pretrain_dataset_4m, coco_dataset, nocaps_dataset, coco_dataset_MoE, coco_dataset_mod
+from dataset.caption_dataset import re_train_dataset, re_eval_dataset, pretrain_dataset_4m, coco_dataset, nocaps_dataset, coco_dataset_HP
 from dataset.nlvr_dataset import nlvr_dataset
 from dataset.ve_dataset import ve_dataset
 from dataset.vqa_dataset import vqa_dataset
@@ -145,95 +145,45 @@ def create_dataset_all(dataset, config, epoch=None):
                                      max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=True, 
                                      add_object=config['add_object'])
         
-        val_dataset_1 = coco_dataset(config['val_file_1'], test_transform, config['coco_root_val_1'], max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=False, add_object=config['add_object'])
-        
-        val_dataset_2 = coco_dataset(config['val_file_2'], test_transform, config['coco_root_val_2'], max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=False, add_object=config['add_object'])
-        
-        val_dataset_3 = coco_dataset(config['val_file_3'], test_transform, config['coco_root_val_3'], max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=False, add_object=config['add_object'])
-        
-        val_dataset_4 = coco_dataset(config['val_file_4'], test_transform, config['coco_root_val_4'], max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=False, add_object=config['add_object'])
-        
-        return train_dataset, val_dataset_1, val_dataset_2, val_dataset_3, val_dataset_4
-    
-
-def create_dataset_all_lv(dataset, config, epoch=None):
-    normalize = transforms.Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711))
-    
-    pretrain_transform = transforms.Compose([                        
-            transforms.RandomResizedCrop(config['image_res'],scale=(0.2, 1.0), interpolation=Image.BICUBIC),
-            transforms.RandomHorizontalFlip(),
-            RandomAugment(2,7,isPIL=True,augs=['Identity','AutoContrast','Equalize','Brightness','Sharpness',
-                                              'ShearX', 'ShearY', 'TranslateX', 'TranslateY', 'Rotate']),     
-            transforms.ToTensor(),
-            normalize,
-        ])    
-    train_transform = transforms.Compose([                        
-            transforms.RandomResizedCrop(config['image_res'],scale=(0.5, 1.0), interpolation=Image.BICUBIC),
-            transforms.RandomHorizontalFlip(),
-            RandomAugment(2,7,isPIL=True,augs=['Identity','AutoContrast','Equalize','Brightness','Sharpness',
-                                              'ShearX', 'ShearY', 'TranslateX', 'TranslateY', 'Rotate']),     
-            transforms.ToTensor(),
-            normalize,
-        ])  
-    test_transform = transforms.Compose([
-        transforms.Resize((config['image_res'],config['image_res']),interpolation=Image.BICUBIC),
-        transforms.ToTensor(),
-        normalize,
-        ])   
-    
-    if dataset== 'coco':
-        train_dataset = coco_dataset(config['train_file'], train_transform, config['coco_root_train'], 
-                                     max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=True, 
-                                     add_object=config['add_object'])
-        
-        val_dataset_1 = coco_dataset(config['val_file_1'], test_transform, config['coco_root_val_1'], max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=False, add_object=config['add_object'])
-        
-        val_dataset_2 = coco_dataset(config['val_file_2'], test_transform, config['coco_root_val_2'], max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=False, add_object=config['add_object'])
-        
-        val_dataset_3 = coco_dataset(config['val_file_3'], test_transform, config['coco_root_val_3'], max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=False, add_object=config['add_object'])
-        
-        val_dataset_4 = coco_dataset(config['val_file_4'], test_transform, config['coco_root_val_4'], max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=False, add_object=config['add_object'])
-        
-        return train_dataset, val_dataset_1, val_dataset_2, val_dataset_3, val_dataset_4
-        
-    
-    
-def create_dataset_all_mod(dataset, config, epoch=None):
-    normalize = transforms.Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711))
-    
-    pretrain_transform = transforms.Compose([                        
-            transforms.RandomResizedCrop(config['image_res'],scale=(0.2, 1.0), interpolation=Image.BICUBIC),
-            transforms.RandomHorizontalFlip(),
-            RandomAugment(2,7,isPIL=True,augs=['Identity','AutoContrast','Equalize','Brightness','Sharpness',
-                                              'ShearX', 'ShearY', 'TranslateX', 'TranslateY', 'Rotate']),     
-            transforms.ToTensor(),
-            normalize,
-        ])    
-    train_transform = transforms.Compose([                        
-            transforms.RandomResizedCrop(config['image_res'],scale=(0.5, 1.0), interpolation=Image.BICUBIC),
-            transforms.RandomHorizontalFlip(),
-            RandomAugment(2,7,isPIL=True,augs=['Identity','AutoContrast','Equalize','Brightness','Sharpness',
-                                              'ShearX', 'ShearY', 'TranslateX', 'TranslateY', 'Rotate']),     
-            transforms.ToTensor(),
-            normalize,
-        ])  
-    test_transform = transforms.Compose([
-        transforms.Resize((config['image_res'],config['image_res']),interpolation=Image.BICUBIC),
-        transforms.ToTensor(),
-        normalize,
-        ])   
-    
-    if dataset== 'coco':
-        train_dataset = coco_dataset_mod(config['train_file'], train_transform, config['coco_root_train'], 
-                                     max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=True, 
-                                     add_object=config['add_object'])
-        
         val_datasets = []
         for i in range(len(config['val_files'])):
-            val_datasets.append(coco_dataset_mod([config['val_files'][i]], test_transform, [config['coco_root_vals'][i]], max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=False, add_object=config['add_object']))
+            val_datasets.append(coco_dataset(config['val_files'][i], test_transform, config['coco_root_vals'][i], max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=False, add_object=config['add_object']))
             
-        return train_dataset, val_datasets[0], val_datasets[1], val_datasets[2], val_datasets[3], val_datasets[4], val_datasets[5]
+        return tuple([train_dataset] + val_datasets)
     
+def create_dataset_all_HP(dataset, config, epoch=None):
+    normalize = transforms.Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711))
+    
+    pretrain_transform = transforms.Compose([                        
+            transforms.RandomResizedCrop(config['image_res'],scale=(0.2, 1.0), interpolation=Image.BICUBIC),
+            transforms.RandomHorizontalFlip(),
+            RandomAugment(2,7,isPIL=True,augs=['Identity','AutoContrast','Equalize','Brightness','Sharpness',
+                                              'ShearX', 'ShearY', 'TranslateX', 'TranslateY', 'Rotate']),     
+            transforms.ToTensor(),
+            normalize,
+        ])    
+    train_transform = transforms.Compose([                        
+            transforms.RandomResizedCrop(config['image_res'],scale=(0.5, 1.0), interpolation=Image.BICUBIC),
+            transforms.RandomHorizontalFlip(),
+            RandomAugment(2,7,isPIL=True,augs=['Identity','AutoContrast','Equalize','Brightness','Sharpness',
+                                              'ShearX', 'ShearY', 'TranslateX', 'TranslateY', 'Rotate']),     
+            transforms.ToTensor(),
+            normalize,
+        ])  
+    test_transform = transforms.Compose([
+        transforms.Resize((config['image_res'],config['image_res']),interpolation=Image.BICUBIC),
+        transforms.ToTensor(),
+        normalize,
+        ])   
+    
+    if dataset== 'coco':
+        train_dataset = coco_dataset_HP(config['train_file'], train_transform,
+                                     max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=True, 
+                                     add_object=config['add_object'])
+        
+        val_dataset_1 = coco_dataset_HP(config['val_file_1'], test_transform, max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=False, add_object=config['add_object'])
+        
+        return train_dataset, val_dataset_1
     
 def create_dataset_single(dataset, config, epoch=None):
     normalize = transforms.Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711))
@@ -306,46 +256,6 @@ def create_dataset_double(dataset, config, epoch=None):
         return train_dataset, val_dataset_1, val_dataset_2
     
     
-def create_dataset_MoE(dataset, config, epoch=None, MoE_label_train = None, MoE_label_test = None):
-    
-    normalize = transforms.Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711))
-    
-    pretrain_transform = transforms.Compose([                        
-            transforms.RandomResizedCrop(config['image_res'],scale=(0.2, 1.0), interpolation=Image.BICUBIC),
-            transforms.RandomHorizontalFlip(),
-            RandomAugment(2,7,isPIL=True,augs=['Identity','AutoContrast','Equalize','Brightness','Sharpness',
-                                              'ShearX', 'ShearY', 'TranslateX', 'TranslateY', 'Rotate']),     
-            transforms.ToTensor(),
-            normalize,
-        ])    
-    train_transform = transforms.Compose([                        
-            transforms.RandomResizedCrop(config['image_res'],scale=(0.5, 1.0), interpolation=Image.BICUBIC),
-            transforms.RandomHorizontalFlip(),
-            RandomAugment(2,7,isPIL=True,augs=['Identity','AutoContrast','Equalize','Brightness','Sharpness',
-                                              'ShearX', 'ShearY', 'TranslateX', 'TranslateY', 'Rotate']),     
-            transforms.ToTensor(),
-            normalize,
-        ])  
-    test_transform = transforms.Compose([
-        transforms.Resize((config['image_res'],config['image_res']),interpolation=Image.BICUBIC),
-        transforms.ToTensor(),
-        normalize,
-        ])   
-    
-    if dataset== 'coco':
-        train_dataset = coco_dataset_MoE(config['train_file'], train_transform, config['coco_root_train'], max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=True, add_object=config['add_object'])
-        
-        val_dataset_1 = coco_dataset_MoE(config['val_file_1'], test_transform, config['coco_root_val_1'], max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=False, add_object=config['add_object'],
-                                        MoE_label = 0)
-        
-        val_dataset_2 = coco_dataset_MoE(config['val_file_2'], test_transform, config['coco_root_val_2'], max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=False, add_object=config['add_object'],
-                                        MoE_label = 1)
-        
-        val_dataset_3 = coco_dataset_MoE(config['val_file_3'], test_transform, config['coco_root_val_3'], max_words=config['max_length'], read_local_data=config['read_local_data'], is_train=False, add_object=config['add_object'],
-                                        MoE_label = 2)
-        
-        return train_dataset, val_dataset_1, val_dataset_2, val_dataset_3
-    
 def videoqa_collate_fn(batch):
     image_list, question_list, answer_list, n = [], [], [], []
     for image, question, answer in batch:
@@ -382,38 +292,12 @@ def coco_collate_fn(batch):
         object_labels.append(object_label)
     return torch.stack(image_list,dim=0), caption_list, object_labels, image_id_list, gold_caption_list
 
-def coco_collate_fn_mod(batch):
-    image_list, caption_list, object_labels, image_id_list, gold_caption_list, det_list = [], [], [], [], [], []
-    for image, caption, object_label, image_id, gold_caption, det_label in batch:
-        image_list.append(image)
-        caption_list.append(caption)
-        image_id_list.append(image_id)
-        gold_caption_list.append(gold_caption)
-        object_labels.append(object_label)
-        det_list.append(det_label)
-    return torch.stack(image_list,dim=0), caption_list, object_labels, image_id_list, gold_caption_list, det_list
-
 def coco_collate_fn_HP(batch):
-    image_list, caption_list, object_labels, image_id_list, gold_caption_list, HP_label_list = [], [], [], [], [], []
-    for image, caption, object_label, image_id, gold_caption, HP_label, metric in batch:
+    image_list, HP_label_list = [], []
+    for image, HP_label in batch:
         image_list.append(image)
-        caption_list.append(caption)
-        image_id_list.append(image_id)
-        gold_caption_list.append(gold_caption)
-        object_labels.append(object_label)
         HP_label_list.append(HP_label)
-    return torch.stack(image_list,dim=0), caption_list, object_labels, image_id_list, gold_caption_list, HP_label_list
-
-def coco_collate_fn_MoE(batch):
-    image_list, caption_list, object_labels, image_id_list, gold_caption_list, MoE_label_list = [], [], [], [], [], []
-    for image, caption, object_label, image_id, gold_caption, MoE_label in batch:
-        image_list.append(image)
-        caption_list.append(caption)
-        image_id_list.append(image_id)
-        gold_caption_list.append(gold_caption)
-        object_labels.append(object_label)
-        MoE_label_list.append(MoE_label)
-    return torch.stack(image_list,dim=0), caption_list, object_labels, image_id_list, gold_caption_list, MoE_label_list
+    return torch.stack(image_list,dim=0), HP_label_list
 
 def create_sampler(datasets, shuffles, num_tasks, global_rank):
     samplers = []
@@ -444,26 +328,3 @@ def create_loader(datasets, samplers, batch_size, num_workers, is_trains, collat
         )              
         loaders.append(loader)
     return loaders
-
-
-def create_loader_MoE(datasets, samplers, batch_size, num_workers, is_trains, collate_fns):
-    loaders = []
-    for dataset,sampler,bs,n_worker,is_train,collate_fn in zip(datasets,samplers,batch_size,num_workers,is_trains,collate_fns):
-        if is_train:
-            shuffle = (sampler is None)
-            drop_last = False
-        else:
-            shuffle = False
-            drop_last = False
-        loader = DataLoader(
-            dataset,
-            batch_size=bs,
-            num_workers=n_worker,
-            pin_memory=True,
-            sampler=sampler,
-            shuffle=shuffle,
-            collate_fn=collate_fn,
-            drop_last=drop_last,
-        )              
-        loaders.append(loader)
-    return loaders  
