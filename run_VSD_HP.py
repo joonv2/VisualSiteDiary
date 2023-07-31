@@ -17,7 +17,7 @@ from torch.utils.data import DataLoader
 import torch.backends.cudnn as cudnn
 import torch.distributed as dist
 
-from models.model_caption_mplug import MPLUG
+from models.model_caption_mplug import VSD
 from models.vit import interpolate_pos_embed, resize_pos_embed
 from models.tokenization_bert import BertTokenizer
 
@@ -223,7 +223,7 @@ def main(args, config):
 
     #### Model ####
     print("Creating model")
-    model = MPLUG(config=config, tokenizer=tokenizer)
+    model = VSD(config=config, tokenizer=tokenizer)
     model = model.to(device)
 
     if not args.do_two_optim:
