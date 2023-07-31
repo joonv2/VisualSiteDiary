@@ -1,0 +1,46 @@
+train_file: ['construction_dataset/ACID_train_lv1.json',
+             'construction_dataset/SAFE_train_lv1.json',
+             'construction_dataset/ACTV_train_lv1.json',
+             'construction_dataset/VOC_train_lv1.json']
+val_files: [
+            ['construction_dataset/ACID_val_lv1.json',
+             'construction_dataset/SAFE_val_lv1.json',
+             'construction_dataset/ACTV_val_lv1.json',
+             'construction_dataset/VOC_val_lv1.json'
+            ]
+           ]
+
+read_local_data: True
+
+coco_root_train: ['construction_dataset/ACID/trainval/',
+                  'construction_dataset/SAFE/',
+                  'construction_dataset/ACTV/',
+                  'construction_dataset/VOC/']
+coco_root_vals: [
+                 ['construction_dataset/ACID/trainval/',
+                  'construction_dataset/SAFE/',
+                  'construction_dataset/ACTV/',
+                  'construction_dataset/VOC/'
+                 ]
+                ]
+
+bert_config: 'configs/config_bert_stride3.json'
+
+image_res: 384
+batch_size_train: 64
+vision_width: 768
+distill: True
+clip_name: "ViT-B-16"
+batch_size_test: 64 
+k_test: 128
+
+alpha: 0.4
+warm_up: True
+
+eos: '[SEP]'
+bos: '[CLS]'
+prompt: ''
+
+optimizer: {opt: adamW, lr1: 1e-5, lr2: 5e-6, weight_decay: 0.02}
+schedular: {sched: cosine, lr: 1e-5, epochs: 20, min_lr: 1e-6, decay_rate: 1, warmup_lr: 1e-5, warmup_epochs: 4, cooldown_epochs: 0}
+use_checkpoint: True
