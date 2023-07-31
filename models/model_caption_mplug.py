@@ -13,7 +13,7 @@ import numpy as np
 
 class PR(nn.Module):
     """PR layer implementation
-    Code taken from S2-Transformer https://github.com/zchoi/S2-Transformer
+    
     Args:
         num_clusters : int
             The number of pseudo regions
@@ -28,6 +28,7 @@ class PR(nn.Module):
         super().__init__()
         self.num_regions = num_regions
         self.dim = dim
+        #self.alpha = alpha
         self.normalize_input = normalize_input
         self.conv = nn.Conv2d(dim, num_regions, kernel_size=(1, 1), bias=True)
         self.centroids = nn.Parameter(torch.rand(num_regions, dim))
@@ -39,29 +40,36 @@ class PR(nn.Module):
     def forward(self, grids):
                    
         N, C = grids.shape[0], grids.shape[-1]
+
         grids = grids.view(N, 577, 768, -1).permute(0,2,1,3).contiguous()
+        #print('grids,', grids.shape) #grids, torch.Size([64, 768, 577, 1])
 
         if self.normalize_input:
             grids = F.normalize(grids, p=2, dim=1)  # across descriptor dim
 
         soft_assign = self.conv(grids).view(N, self.num_regions, -1)
+        #print('soft_assing,', soft_assign.shape) #soft_assing, torch.Size([64, 4, 577])
         soft_assign = F.softmax(soft_assign, dim=1)
+        #print('soft_assing,', soft_assign.shape)
         x_flatten = grids.view(N, C, -1)
         
         residual = x_flatten.expand(self.num_regions, -1, -1, -1).permute(1, 0, 2, 3).contiguous() - \
             self.centroids.expand(x_flatten.size(-1), -1, -1).permute(1, 2, 0).contiguous().unsqueeze(0)
+        #print('residual,', residual.shape)
         residual *= soft_assign.unsqueeze(2)
         p = residual.sum(dim=-1)
+        #print('residual,', residual.shape)
         p = F.normalize(p, p=2, dim=2)  # intra-normalization
         p = p.view(grids.size(0), -1)
         p = F.normalize(p, p=2, dim=1)  # L2 normalize
+        #print("p shape. ", p.shape) #p shape.  torch.Size([64, 3072])
         return p
     
-class MPLUG(nn.Module):
+class VSD(nn.Module):
     def __init__(self,                 
                  tokenizer = None,
                  config = None,
-                 use_PR = True,
+                 use_PR = False,
                  ):
         super().__init__()
         
@@ -74,18 +82,9 @@ class MPLUG(nn.Module):
         self.beam_generator = TextGenerator(config, self.text_decoder) 
         
         ## For HP
-        self.HP_layer_1 = nn.Linear(768,768)
+        self.HP_layer = nn.Linear(768,4)
         self.tanh = nn.Tanh()
-        self.HP_layer_2 = nn.Linear(768,4)
         
-        self.HP_layer_1.weight.data.normal_(mean=0.0, std=0.02)
-#         if self.HP_layer_1.bias is not None:
-#             self.HP_layer_1.bias.data.zero_()
-                
-        self.HP_layer_2.weight.data.normal_(mean=0.0, std=0.02)
-#         if self.HP_layer_2.bias is not None:
-#             self.HP_layer_2.bias.data.zero_()
-
         ## For PR
         self.use_PR = use_PR
         if use_PR:
@@ -97,9 +96,15 @@ class MPLUG(nn.Module):
         if(scst):
             return self.beam_search(image, question, answer, train=True,out_size=out_size)
         image = image.to(dtype=next(self.parameters()).dtype)
-
+        
+        # image.size(): torch.Size([64, 3, 384, 384]) => batch_size = 64, image_resolution = 384
+        
         image_embeds = self.visual_encoder.visual(image, skip_last_layer=True, use_checkpoint=self.use_checkpoint)
-
+        
+        # image_embeds.size() : torch.Size([64, 577, 768]) => batch_size = 64, 
+        # Where does 577 come from?? 1 + 24^2. 따라서 아마 image patch가 24x24들어 있는 듯?
+        # 즉, 1 patch = 32x32 => 1 image (384x384) = 24x24 patches. 1 for [CLS].
+        
         if self.large:
             image_embeds = self.dropout(self.visn_layer_norm(self.visn_fc(image_embeds)))
         image_atts = torch.ones(image_embeds.size()[:-1],dtype=torch.long).to(image.device)
@@ -108,12 +113,25 @@ class MPLUG(nn.Module):
         #For Pseudo Region 
         if self.use_PR:
             bs, __, vis_dim = image_embeds.size()
+            #pseudo_region = self.SP(image_embeds)
+            #print("pseudo_region shape, ", pseudo_region.shape) #pseudo_region shape,  torch.Size([64, 3072])
             pseudo_region = self.PR(image_embeds).view(bs, 4, vis_dim)
+            #print("pseudo_region new shape, ", pseudo_region.shape) #pseudo_region new shape,  torch.Size([64, 4, 768])
+            #####
+            
             region_atts = torch.ones(pseudo_region.size()[:-1],dtype=torch.long).to(image.device)
             image_embeds, image_atts = torch.cat([image_embeds, pseudo_region],dim=1), torch.cat([image_atts, region_atts], dim=-1)
         
         if train:               
             answer_targets = answer.input_ids.masked_fill(answer.input_ids == self.tokenizer.pad_token_id, -100)
+            # answer.input_ids.size() : torch.Size([64,25]) 가끔 torch.Size([64,24])?
+            # answer_targets.size() : torch.Size([64,25])
+            # answer_targets는 위 코드를 보면 알겠지만 0 (pad_token_id) 인 것들을 -100으로 바꾼 것.
+            # 실제 예시:
+            # input_ids[0] -> torch.tensor([  101,  1996,  2067, 14490,  7170,  2121, 15199,  1996,  2455,  1998, ....])
+            # tokenizer.convert_ids_to_tokens(input_ids[0]) = ['[CLS]', 'the', 'back', '##hoe', 'load', '##er', 'excavated',
+            # 'the', 'land', 'and', 'is', 'traveling', 'loaded', '[SEP]', '[PAD]' , ...]
+            # answer.attention_mask[0] = answer.input_ids 실제 토큰까지 1 그 뒤 padding 부분은 전부 0. 
             
             answer_output = self.text_decoder(answer.input_ids, 
                                                   attention_mask = answer.attention_mask, 
@@ -123,21 +141,35 @@ class MPLUG(nn.Module):
                                                   return_dict = True,   
                                                   reduction = 'none',
                                                  )
-            loss = answer_output.loss
+            
+            # answer_output[0] = loss=tensor(4.0908, device='cuda:0', grad_fn=<NllLossBackward0>)
+            # answer_output[1] = logits= tensor with size torch.Size([64, 25, 30522])
+            #   * 30522 seems to be the vocab size. 64 is the batch size. 25 is the maximum caption length
+            #   * mPLUG/output/cicd_caption_base_1e-5/config.yaml 보면 나와 있음.
+            
+            
+            loss = answer_output.loss         
+
             return loss
             
 
         else: 
             topk_ids, topk_probs = self.generation(image_embeds, image_atts)
+            # len(topk_ids) = 64
+            # len(topk_ids[0]) = 1 
+            # topk_ids[0][0].size() => depends on the data. torch.Size([10]), torch.Size([13]), torch.Size([12]) 등등
+            # 예시) topk_ids[0][0] = tensor([  101,  1996,  4654,  3540, 22879, ... ,   102], device='cuda:0')
             return topk_ids, topk_probs
         
     def forward_HP(self, image, HP_label = None, train=True, out_size=5, scst=False):
         if(scst):
             return self.beam_search(image, question, answer, train=True,out_size=out_size)
         image = image.to(dtype=next(self.parameters()).dtype)
+        
+        # image.size(): torch.Size([64, 3, 384, 384]) => batch_size = 64, image_resolution = 384
         image_embeds = self.visual_encoder.visual(image, skip_last_layer=True, use_checkpoint=self.use_checkpoint)
         
-        logits = self.HP_layer_2(self.tanh(self.HP_layer_1(image_embeds[:,0])))
+        logits = self.HP_layer(self.tanh(image_embeds[:,0]))
         
         if train:
             loss_fct = CrossEntropyLoss()
@@ -148,31 +180,6 @@ class MPLUG(nn.Module):
             loss = loss_fct(logits.view(-1, 4), HP_label.view(-1))
             return logits, loss
             
-        if self.large:
-            image_embeds = self.dropout(self.visn_layer_norm(self.visn_fc(image_embeds)))
-        image_atts = torch.ones(image_embeds.size()[:-1],dtype=torch.long).to(image.device)
-        
-        if train:               
-            answer_targets = answer.input_ids.masked_fill(answer.input_ids == self.tokenizer.pad_token_id, -100)
-            
-            answer_output = self.text_decoder(answer.input_ids, 
-                                                  attention_mask = answer.attention_mask, 
-                                                  encoder_hidden_states = image_embeds,
-                                                  encoder_attention_mask = image_atts,                  
-                                                  labels = answer_targets,
-                                                  return_dict = True,   
-                                                  reduction = 'none',
-                                                 )
-
-            loss = answer_output.loss
-            return loss
-            
-
-        else: 
-            topk_ids, topk_probs = self.generation(image_embeds, image_atts)
-            return topk_ids, topk_probs
- 
-
     def module_setting(self, config):
         self.config_encoder = BertConfig.from_json_file(config['bert_config'])   
         self.config_encoder.num_hidden_layers = self.config_encoder.text_encoder_layers
