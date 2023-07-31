@@ -57,6 +57,57 @@ pip install -r requirements.txt
 <pre>sh scripts/caption_vsd_compact.sh</pre>  
 <pre>sh scripts/caption_vsd_detail.sh</pre>  
 
+
+* Step 1. First, We begin with the HP process. Run the following script:
+    ```
+    python -c "import language_evaluation; language_evaluation.download('coco')"
+    python run_VSD.py \
+    --config ./configs/VSD_all.yaml \
+    --output_dir output/example \
+    --checkpoint ./mPLUG_base.pth \
+    --text_encoder bert-base-uncased \
+    --text_decoder bert-base-uncased \
+    --do_two_optim \
+    --lr 1e-5 \
+    --min_length 8 \
+    --max_length 25 \
+    --max_input_length 25 \
+    --eval_start_epoch 0 \
+    --save_for_HP True \
+    --use_PR False
+    ```
+    The trained model will be saved in '.../.../'
+
+* Step 2. Create the HP labels based on the model output from step 1 by running the following script.
+    ```
+    python -c "import language_evaluation; language_evaluation.download('coco')"
+    python create_HP_labels.py \
+    --source_prediction_train '...' \
+    --source_prediction_val '...' \
+    --save_dir './construction_dataset/'
+    ```
+    The HP pre-trained model will be saved at '.../...'
+
+* Step 3. Finetune the HP-pretrained model on the VSD image captioning dataset by running the following script:
+    ```
+    python -c "import language_evaluation; language_evaluation.download('coco')"
+    python run_VSD.py \
+    --config ./configs/VSD_all.yaml \
+    --output_dir output/example \
+    --checkpoint ./HP_trained_model.pth \
+    --text_encoder bert-base-uncased \
+    --text_decoder bert-base-uncased \
+    --do_two_optim \
+    --lr 1e-5 \
+    --min_length 8 \
+    --max_length 25 \
+    --max_input_length 25 \
+    --eval_start_epoch 0 \
+    --save_for_HP False \
+    --use_PR True
+    ```
+    The...
+
                                                                    
 ## Demo instruction for Inference (using your own dataset)
 
