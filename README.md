@@ -50,7 +50,7 @@ pip install -r requirements.txt
   - visualsitediary_compact: Trained_with_lv_0.pth
   - visualsitediary_detail: Trained_with_lv_1.pth
 6. Download language evalution tool([language_evalution](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/language_evaluation.tar)).
-7. In configs/caption_mplug_ALL.yaml, set the paths for the json files and the image paths.
+7. In configs/VSD_all.yaml, set the paths for the json files and the image paths.
 8. Finetune the pre-trained visualsitediary_base or compact/detailed version model using 1 A100 GPU following our instruction.ipyb:
 <pre>instruction.ipyb</pre> 
 <pre>scripts/caption_vsd_base.sh</pre> 
