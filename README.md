@@ -63,10 +63,7 @@ pip install -r requirements.txt
     python -c "import language_evaluation; language_evaluation.download('coco')"
     python run_VSD.py \
     --config ./configs/VSD_all.yaml \
-    --output_dir output/example \
     --checkpoint ./mPLUG_base.pth \
-    --text_encoder bert-base-uncased \
-    --text_decoder bert-base-uncased \
     --do_two_optim \
     --lr 1e-5 \
     --min_length 8 \
@@ -76,7 +73,9 @@ pip install -r requirements.txt
     --save_for_HP True \
     --use_PR False
     ```
-    The trained model will be saved in '.../.../'
+    NB)
+    * Make sure that the (datasets, json files, and model checkpoints) are in the correct directory.
+    * The outputs will be saved in './output/result/train_loader_epoch.json'
 
 * Step 2. Create the HP labels based on the model output from step 1 by running the following script.
     ```
@@ -86,17 +85,14 @@ pip install -r requirements.txt
     --source_prediction_val '...' \
     --save_dir './construction_dataset/'
     ```
-    The HP pre-trained model will be saved at '.../...'
+    The HP pre-trained model will be saved at './construction_dataset/HP_label_train.json' and './construction_dataset/HP_label_val.json'
 
 * Step 3. Finetune the HP-pretrained model on the VSD image captioning dataset by running the following script:
     ```
     python -c "import language_evaluation; language_evaluation.download('coco')"
     python run_VSD.py \
     --config ./configs/VSD_all.yaml \
-    --output_dir output/example \
     --checkpoint ./HP_trained_model.pth \
-    --text_encoder bert-base-uncased \
-    --text_decoder bert-base-uncased \
     --do_two_optim \
     --lr 1e-5 \
     --min_length 8 \
