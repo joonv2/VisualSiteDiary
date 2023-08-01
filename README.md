@@ -80,8 +80,8 @@ pip install -r requirements.txt
     ```
     python -c "import language_evaluation; language_evaluation.download('coco')"
     python create_HP_labels.py \
-    --source_prediction_train '...' \
-    --source_prediction_val '...' \
+    --source_prediction_train './output/result/train_loader_epoch.json' \
+    --source_prediction_val './output/result/val_loader_epoch.json'  \
     --save_dir './construction_dataset/'
     ```
     * The HP labels will be saved at './construction_dataset/'.
