@@ -43,20 +43,20 @@ If you want to train your own model you can follow the instructions below.
       - ACTV (https://github.com/HannahHuanLIU/AEC-image-captioning)
       - SAFE (https://doi.org/10.1061/JCEMD4.COENG-12096)
       - SODA (https://doi.org/10.1016/j.autcon.2022.104499)  
-2. Modify configs/VSD_all.yaml so the directories of the images match.
-3. Download and upload ViT-B-16.tar to the main root (./)
-4. Download and upload mPLUG_base.pth to the main root (./)
-5. Upload --ours--.pth to the main root (./)
+  2. Modify configs/VSD_all.yaml so the directories of the images and json files are correct.
+  3. Download and upload ViT-B-16.tar to the main root (./)
+  4. Download and upload mPLUG_base.pth to the main root (./)
+<!-- 5. Upload --ours--.pth to the main root (./)
   - visualsitediary_total: Trained_with_both_captions.pth
   - visualsitediary_compact: Trained_with_lv_0.pth
-  - visualsitediary_detail: Trained_with_lv_1.pth
-6. Download language evalution tool([language_evalution](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/language_evaluation.tar)).
-7. In configs/VSD_all.yaml, set the paths for the json files and the image paths.
-8. Finetune the pre-trained visualsitediary_base or compact/detailed version model using 1 A100 GPU following our instruction.ipyb:
+  - visualsitediary_detail: Trained_with_lv_1.pth -->
+  5. Download language evalution tool([language_evalution](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/language_evaluation.tar)).
+  6. Follow the steps 1~4 below.
+<!-- 8. Finetune the pre-trained visualsitediary_base or compact/detailed version model using 1 A100 GPU following our instruction.ipyb:
 <pre>instruction.ipyb</pre> 
 <pre>scripts/caption_vsd_base.sh</pre> 
 <pre>sh scripts/caption_vsd_compact.sh</pre>  
-<pre>sh scripts/caption_vsd_detail.sh</pre>  
+<pre>sh scripts/caption_vsd_detail.sh</pre>  -->
 
 
 * Step 1. First, We begin with the HP process. Run the following script:
