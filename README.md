@@ -14,9 +14,9 @@ We present VisualSiteDiary that provides human-readable captions to decipher dai
  
 |Model | Visual Backbone | Text Enc Layers | Fusion Layers | Text Dec Layers | #params | Download |
 |------------------------|-------------------------------------------|------|------|------|------|-----|
-|visualsitediary.total | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.total](https://drive.google.com/file/d/1ZqcuPH0BoxdmnrwAQ1KvR8wYaRV_33VY/view?usp=sharing) |
-|visualsitediary.compact | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.compact](https://drive.google.com/file/d/1qWh9pjVvYd-3xeaqEF1biPDrtFmZO5Cn/view?usp=sharing) |
-|visualsitediary.detailed | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.detailed](https://drive.google.com/file/d/1aNHt9G3ryLbOwHyTgpvHHXrijS-ksQLN/view?usp=sharing) |
+|visualsitediary.total | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.total](https://drive.google.com/file/d/1CmEpPnHGS-pZw7XFi3WUokcmeuvhA5ib/view?usp=sharing) |
+|visualsitediary.compact | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.compact](https://drive.google.com/file/d/1-fWTDclYFy4PaKVqIdfHZqphCeSfpStX/view?usp=sharing) |
+|visualsitediary.detailed | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.detailed](https://drive.google.com/file/d/1lAjpJ_bJdUWfQDXGbNmn72_g_BfSLZOb/view?usp=sharing) |
 
 * VSD Datasets (Need to make a request for the images through the authors of each paper)
                                                                           
@@ -36,15 +36,16 @@ pip install -r requirements.txt
 ```
 
 ## Fine-tuning
+* If you want to train your own model you can follow the instructions below.
                                                                                       
 1. Download the Construction image dataset from the original paper.
   - ACID (https://www.acidb.ca/dataset)
   - ACTV (https://github.com/HannahHuanLIU/AEC-image-captioning)
   - SAFE (https://doi.org/10.1061/JCEMD4.COENG-12096)
   - SODA (https://doi.org/10.1016/j.autcon.2022.104499)  
-2. Download and extract the provided dataset json files (our VSD Caption dataset).
-3. Upload ViT-B-16.tar to the main root (./)
-4. Upload mPLUG_caption_base.pth to the main root (./)
+2. Modify configs/VSD_all.yaml so the directories of the images match.
+3. Download and upload ViT-B-16.tar to the main root (./)
+4. Download and upload mPLUG_base.pth to the main root (./)
 5. Upload --ours--.pth to the main root (./)
   - visualsitediary_total: Trained_with_both_captions.pth
   - visualsitediary_compact: Trained_with_lv_0.pth
