@@ -73,7 +73,6 @@ pip install -r requirements.txt
     --save_for_HP True \
     --use_PR False
     ```
-    NB)
     * Make sure that the (datasets, json files, and model checkpoints) are in the correct directory.
     * The outputs will be saved in './output/result/train_loader_epoch.json'
 
@@ -85,7 +84,7 @@ pip install -r requirements.txt
     --source_prediction_val '...' \
     --save_dir './construction_dataset/'
     ```
-    The HP labels will be saved at './construction_dataset/HP_label_train.json' and './construction_dataset/HP_label_val.json'.
+    * The HP labels will be saved at './construction_dataset/'.
 
 * Step 3. Run HP by running the following script.
     ```
@@ -100,13 +99,14 @@ pip install -r requirements.txt
     --max_input_length 25 \
     --eval_start_epoch 0 \
     ```
+    * The HP-pretrained model will be saved at './HP_pretrained.pth'
 
 * Step 4. Finetune the HP-pretrained model on the VSD image captioning dataset by running the following script:
     ```
     python -c "import language_evaluation; language_evaluation.download('coco')"
     python run_VSD.py \
     --config ./configs/VSD_all.yaml \
-    --checkpoint ./HP_trained_model.pth \
+    --checkpoint ./HP_pretrained.pth \
     --do_two_optim \
     --lr 1e-5 \
     --min_length 8 \
@@ -116,8 +116,6 @@ pip install -r requirements.txt
     --save_for_HP False \
     --use_PR True
     ```
-    The...
-
                                                                    
 ## Demo instruction for Inference (using your own dataset)
 
