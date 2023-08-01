@@ -46,20 +46,10 @@ If you want to train your own model you can follow the instructions below.
   2. Modify configs/VSD_all.yaml so the directories of the images and json files are correct.
   3. Download and upload ViT-B-16.tar to the main root (./)
   4. Download and upload mPLUG_base.pth to the main root (./)
-<!-- 5. Upload --ours--.pth to the main root (./)
-  - visualsitediary_total: Trained_with_both_captions.pth
-  - visualsitediary_compact: Trained_with_lv_0.pth
-  - visualsitediary_detail: Trained_with_lv_1.pth -->
   5. Download language evalution tool([language_evalution](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/language_evaluation.tar)).
   6. Follow the steps 1~4 below.
-<!-- 8. Finetune the pre-trained visualsitediary_base or compact/detailed version model using 1 A100 GPU following our instruction.ipyb:
-<pre>instruction.ipyb</pre> 
-<pre>scripts/caption_vsd_base.sh</pre> 
-<pre>sh scripts/caption_vsd_compact.sh</pre>  
-<pre>sh scripts/caption_vsd_detail.sh</pre>  -->
 
-
-* Step 1. First, We begin with the HP process. Run the following script:
+* Step 1. First, we begin with the HP process. Run the following script to finetune an mPLUG model:
     ```
     python -c "import language_evaluation; language_evaluation.download('coco')"
     python run_VSD.py \
@@ -74,8 +64,7 @@ If you want to train your own model you can follow the instructions below.
     --save_for_HP True \
     --use_PR False
     ```
-    * Make sure that the (datasets, json files, and model checkpoints) are in the correct directory.
-    * The outputs will be saved at f'./output/result/train_loader_epoch_{i}.json'
+    * The outputs will be saved as f'./output/result/train_loader_epoch_{i}.json'
 
 * Step 2. Create the HP labels based on the model output from step 1 by running the following script.
     ```
