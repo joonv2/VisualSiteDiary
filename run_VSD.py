@@ -352,7 +352,7 @@ def main(args, config):
             if epoch >= args.eval_start_epoch:
                 for j, loader in enumerate(val_loaders):
                     vqa_result = evaluation(model, loader, tokenizer, device, config)
-                    result_file = save_result(vqa_result, args.result_dir, f'loader_{j}_epoch%d' % epoch)
+                    result_file = save_result(vqa_result, args.result_dir, f'val_loader_{j}_epoch%d' % epoch)
                     result = cal_metric(evaluator, result_file)
                     for key in best_results[j].keys():
                         if result[key] > best_results[j][key]:
@@ -363,6 +363,11 @@ def main(args, config):
                 for key in best_results[0].keys():
                     print(f'{key}: {best_results[0][key]: .4f} (epoch: {best_results_epoch[0][key]})')
                 print('#'*77)
+                
+            if epoch == 10:
+                torch.save({
+                'model': model_without_ddp.state_dict()
+            }, os.path.join('./saved_checkpoints/', f'VSD_final.pth'))
 
         if args.evaluate:
             break
@@ -383,7 +388,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', default='./configs/VQA.yaml')
     parser.add_argument('--checkpoint', default='')
-    parser.add_argument('--output_dir', default='output/vqa')
+    parser.add_argument('--output_dir', default='output/')
     parser.add_argument('--evaluate', action='store_true')
     parser.add_argument('--text_encoder', default='bert-base-uncased')
     parser.add_argument('--text_decoder', default='bert-base-uncased')
