@@ -101,7 +101,7 @@ pip install -r requirements.txt
     ```
     * The HP-pretrained model will be saved at './HP_pretrained.pth'
 
-* Step 4. Finetune the HP-pretrained model on the VSD image captioning dataset by running the following script:
+* Step 4. Finetune the HP-pretrained model with PR on the VSD image captioning dataset by running the following script:
     ```
     python -c "import language_evaluation; language_evaluation.download('coco')"
     python run_VSD.py \
