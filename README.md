@@ -74,14 +74,14 @@ pip install -r requirements.txt
     --use_PR False
     ```
     * Make sure that the (datasets, json files, and model checkpoints) are in the correct directory.
-    * The outputs will be saved in './output/result/train_loader_epoch.json'
+    * The outputs will be saved at f'./output/result/train_loader_epoch_{i}.json'
 
 * Step 2. Create the HP labels based on the model output from step 1 by running the following script.
     ```
     python -c "import language_evaluation; language_evaluation.download('coco')"
     python create_HP_labels.py \
-    --source_prediction_train './output/result/train_loader_epoch.json' \
-    --source_prediction_val './output/result/val_loader_epoch.json'  \
+    --source_prediction_train f'./output/result/train_loader_epoch_{i}.json' \
+    --source_prediction_val f'./output/result/val_loader_epoch_{i}.json'  \
     --save_dir './construction_dataset/'
     ```
     * The HP labels will be saved at './construction_dataset/'.
