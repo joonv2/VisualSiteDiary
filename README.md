@@ -9,7 +9,7 @@ We present VisualSiteDiary that provides human-readable captions to decipher dai
 ## Pre-trained models and datasets
 
 * Pre-trained models
-  * We provide trained checkpoints for convenience.
+  * We provide trained VisualSiteDiary checkpoints for convenience.
  
 |Model | Visual Backbone | Text Enc Layers | Fusion Layers | Text Dec Layers | #params | Download |
 |------------------------|-------------------------------------------|------|------|------|------|-----|
