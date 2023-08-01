@@ -9,8 +9,7 @@ We present VisualSiteDiary that provides human-readable captions to decipher dai
 ## Pre-trained models and datasets
 
 * Pre-trained models
-
- 
+  * We provide trained checkpoints for convenience.
  
 |Model | Visual Backbone | Text Enc Layers | Fusion Layers | Text Dec Layers | #params | Download |
 |------------------------|-------------------------------------------|------|------|------|------|-----|
@@ -38,7 +37,7 @@ pip install -r requirements.txt
 ## Fine-tuning
 If you want to train your own model you can follow the instructions below.
                                                                                       
-  1. Download the Construction image dataset from the original paper.
+  1. Download the Construction image datasets from the original paper.
       - ACID (https://www.acidb.ca/dataset)
       - ACTV (https://github.com/HannahHuanLIU/AEC-image-captioning)
       - SAFE (https://doi.org/10.1061/JCEMD4.COENG-12096)
@@ -46,7 +45,7 @@ If you want to train your own model you can follow the instructions below.
   2. Modify configs/VSD_all.yaml so the directories of the images and json files are correct.
   3. Download and upload ViT-B-16.tar to the main root (./)
   4. Download and upload mPLUG_base.pth to the main root (./)
-  5. Download language evalution tool([language_evalution](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/language_evaluation.tar)).
+  5. Download language evalution tool ([language_evalution](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/language_evaluation.tar)).
   6. Follow the steps 1~4 below.
 
 * Step 1. First, we begin with the HP process. Run the following script to finetune an mPLUG model:
