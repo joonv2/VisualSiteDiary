@@ -85,9 +85,23 @@ pip install -r requirements.txt
     --source_prediction_val '...' \
     --save_dir './construction_dataset/'
     ```
-    The HP pre-trained model will be saved at './construction_dataset/HP_label_train.json' and './construction_dataset/HP_label_val.json'
+    The HP labels will be saved at './construction_dataset/HP_label_train.json' and './construction_dataset/HP_label_val.json'.
 
-* Step 3. Finetune the HP-pretrained model on the VSD image captioning dataset by running the following script:
+* Step 3. Run HP by running the following script.
+    ```
+    python -c "import language_evaluation; language_evaluation.download('coco')"
+    python run_VSD_HP.py \
+    --config ./configs/VSD_HP.yaml \
+    --checkpoint ./mPLUG_base.pth \
+    --do_two_optim \
+    --lr 1e-5 \
+    --min_length 8 \
+    --max_length 25 \
+    --max_input_length 25 \
+    --eval_start_epoch 0 \
+    ```
+
+* Step 4. Finetune the HP-pretrained model on the VSD image captioning dataset by running the following script:
     ```
     python -c "import language_evaluation; language_evaluation.download('coco')"
     python run_VSD.py \
