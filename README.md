@@ -39,10 +39,10 @@ pip install -r requirements.txt
 If you want to train your own model you can follow the instructions below.
                                                                                       
   1. Download the Construction image dataset from the original paper.
-    - ACID (https://www.acidb.ca/dataset)
-    - ACTV (https://github.com/HannahHuanLIU/AEC-image-captioning)
-    - SAFE (https://doi.org/10.1061/JCEMD4.COENG-12096)
-    - SODA (https://doi.org/10.1016/j.autcon.2022.104499)  
+      - ACID (https://www.acidb.ca/dataset)
+      - ACTV (https://github.com/HannahHuanLIU/AEC-image-captioning)
+      - SAFE (https://doi.org/10.1061/JCEMD4.COENG-12096)
+      - SODA (https://doi.org/10.1016/j.autcon.2022.104499)  
 2. Modify configs/VSD_all.yaml so the directories of the images match.
 3. Download and upload ViT-B-16.tar to the main root (./)
 4. Download and upload mPLUG_base.pth to the main root (./)
