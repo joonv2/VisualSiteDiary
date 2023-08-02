@@ -106,14 +106,57 @@ If you want to train your own model you can follow the instructions below.
     --use_PR True
     ```
                                                                    
-## Demo instruction for Inference (using your own dataset)
+## Demo for Model Inference
+
+### [Colab: single image input](https://colab.research.google.com/drive/1NaiKzMMK5bzNUKZXINWbnPKS-BserZno?usp=share_link)
+
+Please refer the above link for further detail. You should be able to follow the blocks to download any requried dependencies and upload your own image to test our model checkpoints for different prediction styles.
+
+### Evaluate on the whole dataset
+1. Prepare the images and corresponding json files based on the COCO format. If you are using imgs without ground truth captions, simply use our script to generate a fake coco json file and move to the next step. A json file with the same name as the folder should be saved in the same directory.
+```
+python demo/create_coco_val.py [your_img_folder_path]
+```
+2. Define the config file to the path of the coco json file from the last step
+3. Execute the following command (taking our validation dataset as example)
+    ```
+    python run_VSD.py \
+    --config ./configs/test.yaml \
+    --checkpoint ./VSD_final.pth \
+    --min_length 8 \
+    --max_length 25 \
+    --max_input_length 25 \
+    --save_for_HP False \
+    --use_PR True \
+    --output_dir output/ \
+    --evaluate
+    ```
+
+### Interactive web: daily construction report generation
+
+This demo is built to generate daily construction report based on multiple images, which could be CCTV images with fixed camera viewpoint or random images from an engineer. More detail can be found in our recorded video.
+
+We provide the step-by-step instruction to build the same app as us. Basically, you need to build the backend to handle the model inference and the frontend to allow users to try out different checkpoints and include more features. By following the instruction, you should be able to have what we demonstrate in the video.
+
+To enable the summarization function, you will need to install [the `transformers` library](https://huggingface.co/docs/transformers/installation). Note that we're using the summarization api, which is not guaranteed to be always available. Once you find it not work anymore, just ignore this part and replace it with any other one that works.
+
+1. For the backend, please refer to the [official PyTorch tutorial](https://pytorch.org/tutorials/intermediate/flask_rest_api_tutorial.html) for any required installation. In this repo, we simply extend [their repo](https://github.com/avinassh/pytorch-flask-api) to run the model inference and caption summarization. After installing all the dependencies and downloading our files, you should run the backend as follows:
+```
+cd demo/
+FLASK_ENV=development FLASK_APP=app.py flask run
+```
+2. For the frontend, you need to first run the server and copy-paste the api to the comman. We develop a simple html for the interaction. Feel free to extend our work to develop any potential applications with our model.
+  
+```
+python -m http
+```
 
 ## Citation
 If you use our work, please cite:
 ```
 @article{jung2023,
   title={VisualSiteDiary: A Detector-Free Vision Transformer Model for Captioning Photologs for Daily Construction Reporting},
-  author={Jung, Yoonhwa and Cho, Ikhyun and Hsu, Shun-Shuing and Golparvar-Fard, Mani},
+  author={Jung, Yoonhwa and Cho, Ikhyun and Hsu, Shun-Hsiang and Golparvar-Fard, Mani},
   journal={Automation in Construction},
   year={2023},
   note ={submitted}
