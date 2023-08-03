@@ -1,7 +1,7 @@
 # VisualSiteDiary
 An image captioning model built upon a pretrained ViT model (mPLUG) that provides human-readable captions to decipher daily progress and work activities from construction photologs
 ## Introduction
-We present VisualSiteDiary that provides human-readable captions to decipher daily progress and work activities from construction photologs. To achieve high-quality descriptions from these photologs, our method: 1) incorporates pseudo region features, 2) utilizes high-level knowledge for pretraining the model, and 3) fine-tunes the model to consider different styles of captions accommodating different construction use-cases such as daily construction reporting. To validate the model and enable future research, we present VSD, a new comprehensive image captioning dataset that demonstrates various construction scenarios such as site work and super/sub-structure activities. Experiments show that \MethodName provides superior-quality captions compared to the state-of-the-art image captioning models on the VSD dataset. The dataset itself also offers more realistic yet challenging cases that need to be considered for real application on a project. We discuss how our method can be used for 1) daily construct reporting, and 2) image retrieval from existing photologs. Examples are also shared on how \MethodName enables variable style-caption generation from challenging construction images. 
+We present VisualSiteDiary that provides human-readable captions to decipher daily progress and work activities from construction photologs. To achieve high-quality descriptions from these photologs, our method: 1) incorporates pseudo region features, 2) utilizes high-level knowledge for pretraining the model, and 3) fine-tunes the model to consider different styles of captions accommodating different construction use-cases such as daily construction reporting. To validate the model and enable future research, we present VSD, a new comprehensive image captioning dataset that demonstrates various construction scenarios such as site work and super/sub-structure activities. Experiments show that VisualSiteDiary provides superior-quality captions compared to the state-of-the-art image captioning models on the VSD dataset. The dataset itself also offers more realistic yet challenging cases that need to be considered for real application on a project. We discuss how our method can be used for 1) daily construct reporting, and 2) image retrieval from existing photologs. Examples are also shared on how VisualSiteDiary enables variable style-caption generation from challenging construction images. 
 
 <img src="VSD_framework.png" width="600"> 
 
@@ -11,11 +11,11 @@ We present VisualSiteDiary that provides human-readable captions to decipher dai
 * Pre-trained models
   * We provide trained VisualSiteDiary checkpoints for convenience.
  
-|Model | Visual Backbone | Text Enc Layers | Fusion Layers | Text Dec Layers | #params | Download |
-|------------------------|-------------------------------------------|------|------|------|------|-----|
-|visualsitediary.total | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.total](https://drive.google.com/file/d/1CmEpPnHGS-pZw7XFi3WUokcmeuvhA5ib/view?usp=sharing) |
-|visualsitediary.compact | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.compact](https://drive.google.com/file/d/1-fWTDclYFy4PaKVqIdfHZqphCeSfpStX/view?usp=sharing) |
-|visualsitediary.detailed | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.detailed](https://drive.google.com/file/d/1lAjpJ_bJdUWfQDXGbNmn72_g_BfSLZOb/view?usp=sharing) |
+|Model | Visual Backbone | Image Enc Layers |  Text Dec Layers | Download |
+|------------------------|-------------------------------------------|------|------|-----|
+|visualsitediary.total | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 12 | 12 | [visualsitediary.total](https://drive.google.com/file/d/1CmEpPnHGS-pZw7XFi3WUokcmeuvhA5ib/view?usp=sharing) |
+|visualsitediary.compact | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 12 | 12 |  [visualsitediary.compact](https://drive.google.com/file/d/1-fWTDclYFy4PaKVqIdfHZqphCeSfpStX/view?usp=sharing) |
+|visualsitediary.detailed | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 12 | 12 |  [visualsitediary.detailed](https://drive.google.com/file/d/1lAjpJ_bJdUWfQDXGbNmn72_g_BfSLZOb/view?usp=sharing) |
 
 * VSD Datasets (Need to make a request for the images through the authors of each paper)
                                                                           
@@ -106,50 +106,20 @@ If you want to train your own model you can follow the instructions below.
     --use_PR True
     ```
                                                                    
-## Demo for Model Inference
+## Model Inference
 
-### [Colab: single image input](https://colab.research.google.com/drive/1NaiKzMMK5bzNUKZXINWbnPKS-BserZno?usp=share_link)
+### [Colab instruction](https://colab.research.google.com/drive/1NaiKzMMK5bzNUKZXINWbnPKS-BserZno?usp=share_link)
 
-Please refer the above link for further detail. You should be able to follow the blocks to download any requried dependencies and upload your own image to test our model checkpoints for different prediction styles.
+Please refer the above link for further detail. You should be able to follow the cells to download any requried dependencies and upload your own image to test our model checkpoints for different prediction styles.
 
-### Evaluate on the whole dataset
-1. Prepare the images and corresponding json files based on the COCO format. If you are using imgs without ground truth captions, simply use our script to generate a fake coco json file and move to the next step. A json file with the same name as the folder should be saved in the same directory.
-```
-python demo/create_coco_val.py [your_img_folder_path]
-```
-2. Define the config file to the path of the coco json file from the last step
-3. Execute the following command (taking our validation dataset as example)
-    ```
-    python run_VSD.py \
-    --config ./configs/test.yaml \
-    --checkpoint ./VSD_final.pth \
-    --min_length 8 \
-    --max_length 25 \
-    --max_input_length 25 \
-    --save_for_HP False \
-    --use_PR True \
-    --output_dir output/ \
-    --evaluate
-    ```
+### [Demo for daily construction report](./demo/)
 
-### Interactive web: daily construction report generation
+This demo is built to generate daily construction report based on multiple images, which could be CCTV images with a fixed camera viewpoint or random images from an engineer.
 
-This demo is built to generate daily construction report based on multiple images, which could be CCTV images with fixed camera viewpoint or random images from an engineer. More detail can be found in our recorded video.
+<p align="center">
+  <img src="./media/dcr_demo.gif" width="75%" />
+</p>
 
-We provide the step-by-step instruction to build the same app as us. Basically, you need to build the backend to handle the model inference and the frontend to allow users to try out different checkpoints and include more features. By following the instruction, you should be able to have what we demonstrate in the video.
-
-To enable the summarization function, you will need to install [the `transformers` library](https://huggingface.co/docs/transformers/installation). Note that we're using the summarization api, which is not guaranteed to be always available. Once you find it not work anymore, just ignore this part and replace it with any other one that works.
-
-1. For the backend, please refer to the [official PyTorch tutorial](https://pytorch.org/tutorials/intermediate/flask_rest_api_tutorial.html) for any required installation. In this repo, we simply extend [their repo](https://github.com/avinassh/pytorch-flask-api) to run the model inference and caption summarization. After installing all the dependencies and downloading our files, you should run the backend as follows:
-```
-cd demo/
-FLASK_ENV=development FLASK_APP=app.py flask run
-```
-2. For the frontend, you need to first run the server and copy-paste the api to the comman. We develop a simple html for the interaction. Feel free to extend our work to develop any potential applications with our model.
-  
-```
-python -m http
-```
 
 ## Citation
 If you use our work, please cite:

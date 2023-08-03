@@ -3,7 +3,7 @@ import os
 # import ruamel_yaml as yaml
 import ruamel.yaml as yaml
 # import language_evaluation
-import language_evaluation_2 as language_evaluation
+import language_evaluation_2.language_evaluation as language_evaluation
 import numpy as np
 import random
 import time
@@ -382,16 +382,10 @@ def main(args, config):
         if args.evaluate:
             for j, loader in enumerate(val_loaders):
                 vqa_result = evaluation(model, loader, tokenizer, device, config)
-                result_file = save_result(vqa_result, args.result_dir, '')
+                output_filename = os.path.basename(config['val_files'][0][j])[:-5]
+                result_file = os.path.join(args.result_dir, f'{output_filename}_pred.json')
+                json.dump(vqa_result, open(result_file, 'w+'))
                 result = cal_metric(evaluator, result_file)
-                for key in best_results[j].keys():
-                    if result[key] > best_results[j][key]:
-                        best_results[j][key] = result[key]
-                        best_results_epoch[j][key] = epoch
-            print('#'*77)
-            for key in result.keys():
-                print(f'{key}: {result[key]: .4f}')
-            print('#'*77)
             break
 
     total_time = time.time() - start_time
@@ -448,8 +442,8 @@ if __name__ == '__main__':
     config["max_length"] = args.max_length
     config["add_object"] = args.add_object
     config["beam_size"] = args.beam_size
-    # config['optimizer']['lr'] = args.lr
-    # config['schedular']['lr'] = args.lr
+    config['optimizer']['lr'] = args.lr
+    config['schedular']['lr'] = args.lr
     config['text_encoder'] = args.text_encoder
     config['text_decoder'] = args.text_decoder
 
