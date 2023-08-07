@@ -11,11 +11,11 @@ We present VisualSiteDiary that provides human-readable captions to decipher dai
 * Pre-trained models
   * We provide trained VisualSiteDiary checkpoints for convenience.
  
-|Model | Visual Backbone | Text Enc Layers | Fusion Layers | Text Dec Layers | #params | Download |
-|------------------------|-------------------------------------------|------|------|------|------|-----|
-|visualsitediary.total | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.total](https://drive.google.com/file/d/1CmEpPnHGS-pZw7XFi3WUokcmeuvhA5ib/view?usp=sharing) |
-|visualsitediary.compact | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.compact](https://drive.google.com/file/d/1-fWTDclYFy4PaKVqIdfHZqphCeSfpStX/view?usp=sharing) |
-|visualsitediary.detailed | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 6 | 6 | 12 | --M | [visualsitediary.detailed](https://drive.google.com/file/d/1lAjpJ_bJdUWfQDXGbNmn72_g_BfSLZOb/view?usp=sharing) |
+|Model | Visual Backbone | Image Enc Layers |  Text Dec Layers | Download |
+|------------------------|-------------------------------------------|------|------|-----|
+|visualsitediary.total | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 12 | 12 | [visualsitediary.total](https://drive.google.com/file/d/1CmEpPnHGS-pZw7XFi3WUokcmeuvhA5ib/view?usp=sharing) |
+|visualsitediary.compact | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 12 | 12 |  [visualsitediary.compact](https://drive.google.com/file/d/1-fWTDclYFy4PaKVqIdfHZqphCeSfpStX/view?usp=sharing) |
+|visualsitediary.detailed | [vit-b-16](https://alice-open.oss-cn-zhangjiakou.aliyuncs.com/mPLUG/ViT-B-16.tar) | 12 | 12 |  [visualsitediary.detailed](https://drive.google.com/file/d/1lAjpJ_bJdUWfQDXGbNmn72_g_BfSLZOb/view?usp=sharing) |
 
 * VSD Datasets (Need to make a request for the images through the authors of each paper)
                                                                           
