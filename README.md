@@ -3,7 +3,7 @@ An image captioning model built upon a pretrained ViT model (mPLUG) that provide
 ## Introduction
 We present VisualSiteDiary that provides human-readable captions to decipher daily progress and work activities from construction photologs. To achieve high-quality descriptions from these photologs, our method: 1) incorporates pseudo region features, 2) utilizes high-level knowledge for pretraining the model, and 3) fine-tunes the model to consider different styles of captions accommodating different construction use-cases such as daily construction reporting. To validate the model and enable future research, we present VSD, a new comprehensive image captioning dataset that demonstrates various construction scenarios such as site work and super/sub-structure activities. Experiments show that VisualSiteDiary provides superior-quality captions compared to the state-of-the-art image captioning models on the VSD dataset. The dataset itself also offers more realistic yet challenging cases that need to be considered for real application on a project. We discuss how our method can be used for 1) daily construct reporting, and 2) image retrieval from existing photologs. Examples are also shared on how VisualSiteDiary enables variable style-caption generation from challenging construction images. 
 
-<img src="VSD_framework.png" width="600"> 
+<img src="pipeline.png" width="600"> 
 
 
 ## Pre-trained models and datasets
@@ -106,14 +106,27 @@ If you want to train your own model you can follow the instructions below.
     --use_PR True
     ```
                                                                    
-## Demo instruction for Inference (using your own dataset)
+## Model Inference
+
+### [Colab instruction](https://colab.research.google.com/drive/1NaiKzMMK5bzNUKZXINWbnPKS-BserZno?usp=share_link)
+
+Please refer the above link for further detail. You should be able to follow the cells to download any requried dependencies and upload your own image to test our model checkpoints for different prediction styles.
+
+### [Demo for daily construction report](./demo/)
+
+This demo is built to generate daily construction report based on multiple images, which could be CCTV images with a fixed camera viewpoint or random images from an engineer.
+
+<p align="center">
+  <img src="./media/VSD_demo.gif" width="75%" />
+</p>
+
 
 ## Citation
 If you use our work, please cite:
 ```
 @article{jung2023,
   title={VisualSiteDiary: A Detector-Free Vision Transformer Model for Captioning Photologs for Daily Construction Reporting},
-  author={Jung, Yoonhwa and Cho, Ikhyun and Hsu, Shun-Shuing and Golparvar-Fard, Mani},
+  author={Jung, Yoonhwa and Cho, Ikhyun and Hsu, Shun-Hsiang and Golparvar-Fard, Mani},
   journal={Automation in Construction},
   year={2023},
   note ={submitted}

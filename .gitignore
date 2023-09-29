@@ -1,0 +1,8 @@
+__pycache__
+*pth
+*tar
+output
+
+demo/web_app/node_modules/*
+.DS_Store
+
