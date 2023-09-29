@@ -117,7 +117,7 @@ Please refer the above link for further detail. You should be able to follow the
 This demo is built to generate daily construction report based on multiple images, which could be CCTV images with a fixed camera viewpoint or random images from an engineer.
 
 <p align="center">
-  <img src="./media/dcr_demo.gif" width="75%" />
+  <img src="./media/VSD_demo.gif" width="75%" />
 </p>
 
 
