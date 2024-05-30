@@ -125,12 +125,12 @@ Please refer the above link for further detail. You should be able to follow the
 ## Citation
 If you use our work, please cite:
 ```
-@article{jung2023,
+@article{jung2024,
   title={VisualSiteDiary: A Detector-Free Vision Transformer Model for Captioning Photologs for Daily Construction Reporting},
   author={Jung, Yoonhwa and Cho, Ikhyun and Hsu, Shun-Hsiang and Golparvar-Fard, Mani},
   journal={Automation in Construction},
-  year={2023},
-  note ={submitted}
+  year={2024},
+  note ={In press}
 }
 ```
 ## Acknowledgement
