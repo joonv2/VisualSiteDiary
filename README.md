@@ -34,6 +34,11 @@ This paper presents VisualSiteDiary, a Vision Transformer-based image captioning
 |text | 8,000 | 1,928 | 3,524 | 2,178 |
 
 * We share our captions on each image dataset in the `construction_dataset' folder.
+
+## Result
+|                 | B@4  | METEOR | ROUGE | CIDEr | SPICE | Avg.  |
+|-----------------|------|--------|-------|-------|-------|-------|
+| VisualSiteDiary | 58.0 | 39.9   | 70.6  | 333.7 | 53.0  | 111.0 |
   
 ## Requirements
 * [PyTorch](https://pytorch.org/) version >= 1.11.0
