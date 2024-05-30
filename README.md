@@ -39,6 +39,9 @@ This paper presents VisualSiteDiary, a Vision Transformer-based image captioning
 |                 | B@4  | METEOR | ROUGE | CIDEr | SPICE | Avg.  |
 |-----------------|------|--------|-------|-------|-------|-------|
 | VisualSiteDiary | 58.0 | 39.9   | 70.6  | 333.7 | 53.0  | 111.0 |
+| mPLUG | 57.2 | 39.6   | 70.4  | 331.5 | 52.8  | 110.3 |
+| GiT | 44.8 | 32.8   | 60.1  | 237.2 | 43.4  | 83.2 |
+| CLIP | 44.7 | 32.9   | 60.3  | 235.9 | 42.9  | 83.3 |
   
 ## Requirements
 * [PyTorch](https://pytorch.org/) version >= 1.11.0
