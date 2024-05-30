@@ -1,5 +1,15 @@
 # VisualSiteDiary
 An image captioning model built upon a pretrained ViT model (mPLUG) that provides human-readable captions to decipher daily progress and work activities from construction photologs
+
+
+### [Demo for daily construction report](./demo/)
+
+This demo is built to generate daily construction report based on multiple images, which could be CCTV images with a fixed camera viewpoint or random images from an engineer.
+
+<p align="center">
+  <img src="./media/VSD_demo.gif" width="75%" />
+</p>
+
 ## Introduction
 This paper presents VisualSiteDiary, a Vision Transformer-based image captioning model which creates human-readable captions for daily progress and work activity log, and enhances image retrieval tasks. As a model for deciphering construction photologs, VisualSiteDiary incorporates pseudo-region features, utilizes high-level knowledge in pretraining, and fine-tunes for diverse captioning styles. To validate VisualSiteDiary, a new image captioning dataset, VSD, is presented. This dataset includes many realistic yet challenging cases commonly observed in commercial building projects. Experimental results using five different metrics demonstrate that VisualSiteDiary provides superior-quality captions compared to the state-of-the-art image captioning models. 
 <img src="pipeline.png" width="600"> 
@@ -110,14 +120,6 @@ If you want to train your own model you can follow the instructions below.
 ### [Colab instruction](https://colab.research.google.com/drive/1NaiKzMMK5bzNUKZXINWbnPKS-BserZno?usp=share_link)
 
 Please refer the above link for further detail. You should be able to follow the cells to download any requried dependencies and upload your own image to test our model checkpoints for different prediction styles.
-
-### [Demo for daily construction report](./demo/)
-
-This demo is built to generate daily construction report based on multiple images, which could be CCTV images with a fixed camera viewpoint or random images from an engineer.
-
-<p align="center">
-  <img src="./media/VSD_demo.gif" width="75%" />
-</p>
 
 
 ## Citation
