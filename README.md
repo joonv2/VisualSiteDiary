@@ -127,10 +127,13 @@ If you use our work, please cite:
 ```
 @article{jung2024,
   title={VisualSiteDiary: A Detector-Free Vision Transformer Model for Captioning Photologs for Daily Construction Reporting},
-  author={Jung, Yoonhwa and Cho, Ikhyun and Hsu, Shun-Hsiang and Golparvar-Fard, Mani},
-  journal={Automation in Construction},
-  year={2024},
-  note ={In press}
+author={Jung, Yoonhwa and Cho, Ikhyun and Hsu, Shun-Hsiang and Golparvar-Fard, Mani},
+journal = {Automation in Construction},
+volume = {165},
+pages = {105483},
+year = {2024},
+issn = {0926-5805},
+doi = {https://doi.org/10.1016/j.autcon.2024.105483}
 }
 ```
 ## Acknowledgement
